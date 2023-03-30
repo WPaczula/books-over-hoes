@@ -1,0 +1,1 @@
+export type BookStatus = 'TO_BE_READ' | 'AWAITING_REVIEW' | 'AWAITING_SENDING' | 'COMPLETED'

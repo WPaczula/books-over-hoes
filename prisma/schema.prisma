@@ -67,14 +67,13 @@ model VerificationToken {
 }
 
 model Book {
-    id            String    @id @default(cuid())
-    name          String
-    createdAt     DateTime  @default(now())
-    readAt        DateTime?
-    hasAudioBook  Boolean
-    needsReview   Boolean
-    reviewWritten Boolean
-    reviewPosted  Boolean
-    userId        String
-    user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String    @id @default(cuid())
+    name         String
+    createdAt    DateTime  @default(now())
+    readAt       DateTime?
+    hasAudioBook Boolean   @default(false)
+    needsReview  Boolean   @default(false)
+    status       String    @default("TO_BE_READ")
+    userId       String
+    user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

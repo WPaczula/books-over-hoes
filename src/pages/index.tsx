@@ -23,7 +23,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 const Home: NextPage = () => {
-  const { data: session } = useSession()
   const { data: books } = api.book.getPaged.useQuery({ page: 0, size: 10 });
 
   return (

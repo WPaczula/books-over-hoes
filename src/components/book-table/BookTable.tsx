@@ -1,6 +1,8 @@
 import { type Book } from '@prisma/client'
 import { Checkbox } from 'flowbite-react'
 import React from 'react'
+import { BookStatus } from '~/types/BookStatus'
+import BookStatusBadge from '../book-status-badge/BookStatusBadge'
 
 type Props = {
     data: Array<Book>
@@ -22,6 +24,9 @@ const Table = ({ data }: Props) => {
                             Read at
                         </th>
                         <th scope="col" className="px-6 py-3">
+                            Status
+                        </th>
+                        <th scope="col" className="px-6 py-3">
                             🎧
                         </th>
                     </tr>
@@ -40,6 +45,9 @@ const Table = ({ data }: Props) => {
                             </td>
                             <td className="px-6 py-4">
                                 {book.readAt?.toDateString() || '-'}
+                            </td>
+                            <td className="px-6 py-4">
+                                <BookStatusBadge status={book.status as BookStatus} />
                             </td>
                             <td className="px-6 py-4">
                                 <div className="flex items-center">
