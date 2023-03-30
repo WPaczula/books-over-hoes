@@ -1,10 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 const config = {
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: 'media',
+  content: [
+    "./node_modules/flowbite-react/**/*.js",
+    "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    require("flowbite/plugin")
+  ],
 };
 
 module.exports = config;
