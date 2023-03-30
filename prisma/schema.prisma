@@ -55,6 +55,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Book          Book[]
 }
 
 model VerificationToken {
@@ -63,4 +64,17 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Book {
+    id            String    @id @default(cuid())
+    name          String
+    createdAt     DateTime  @default(now())
+    readAt        DateTime?
+    hasAudioBook  Boolean
+    needsReview   Boolean
+    reviewWritten Boolean
+    reviewPosted  Boolean
+    userId        String
+    user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
