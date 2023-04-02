@@ -59,13 +59,13 @@ export const bookRouter = createTRPCRouter({
     const book = await findBook(ctx, input.id);
 
     book.readAt = input.readAt
-    if (book.status === 'TO_BE_READ') {
+    if (book.status === 'TO_BE_READ' && input.readAt) {
       if (book.needsReview) {
         book.status = 'AWAITING_REVIEW'
       } else if (!book.needsReview) {
         book.status = 'COMPLETED'
       }
-    } else {
+    } else if (input.readAt === null){
       book.status = 'TO_BE_READ'
     }
 

@@ -32,12 +32,16 @@ type Props = {
 
 const Datepicker = ({ value, onChange }: Props) => {
     const [show, setShow] = useState<boolean>(false)
+    const [date, setDate] = useState<Date | null>(value)
 
     const handleChange = (selectedDate: Date) => {
-        onChange(selectedDate)
+        setDate(selectedDate)
     }
     const handleClose = (state: boolean) => {
         setShow(state)
+        if (!state) {
+            onChange(date)
+        }
     }
 
     const datepickerOptions = useMemo(() => {
