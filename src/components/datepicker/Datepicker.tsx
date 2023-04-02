@@ -4,7 +4,7 @@ import ReactDatepicker from "tailwind-datepicker-react"
 const options = {
     autoHide: true,
     todayBtn: true,
-    clearBtn: true,
+    clearBtn: false,
     theme: {
         background: "bg-gray-700 dark:bg-gray-800",
         todayBtn: "",
@@ -39,7 +39,7 @@ const Datepicker = ({ value, onChange }: Props) => {
     }
     const handleClose = (state: boolean) => {
         setShow(state)
-        if (!state) {
+        if (!state && date) {
             onChange(date)
         }
     }
