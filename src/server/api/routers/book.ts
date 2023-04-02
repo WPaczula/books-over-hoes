@@ -35,5 +35,20 @@ export const bookRouter = createTRPCRouter({
     await ctx.prisma.book.update({where: {id: input.id}, data: book})
 
     return book
+  }),
+
+  adjustHasAudiobook: protectedProcedure.input(z.object({ id: z.string().cuid(), hasAudiobook: z.boolean() })).mutation(async ({ctx, input}) => {
+    const userId = ctx.session.user.id
+    const book = await ctx.prisma.book.findUnique({where: {id: input.id}})
+
+    if (!book || book.userId !== userId) {
+        throw new TRPCError({code: 'NOT_FOUND', message: 'Book not found'})
+    }
+
+    book.hasAudioBook = input.hasAudiobook
+
+    await ctx.prisma.book.update({where: {id: input.id}, data: book})
+
+    return book
   })
 });
