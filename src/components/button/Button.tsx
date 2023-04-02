@@ -1,7 +1,7 @@
 import React, { type ButtonHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement>
+export type Props = ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button = ({ className = '', ...rest }: Props) => {
     return (

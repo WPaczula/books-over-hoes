@@ -3,7 +3,9 @@ const config = {
   darkMode: 'media',
   content: [
     "./node_modules/flowbite-react/**/*.js",
-    "./src/**/*.{js,ts,jsx,tsx}"],
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
+  ],
   theme: {
     extend: {},
   },
