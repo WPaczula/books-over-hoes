@@ -18,12 +18,13 @@ async function findBook(ctx: TRPCContext, id: string) {
 
 
 export const bookRouter = createTRPCRouter({
-  getPaged: protectedProcedure.input(z.object({ page: z.number().min(0), size: z.number().min(10) })).query(async ({input, ctx}) => {
+  getPaged: protectedProcedure.input(z.object({ page: z.number().min(0), size: z.number().min(1) })).query(async ({input, ctx}) => {
     const userId = ctx.session?.user.id
 
     const books = await ctx.prisma.book.findMany({ where: {userId}, take: input.size, skip: input.page * input.size })
+    const booksCount = await ctx.prisma.book.count({where: {userId}})
 
-    return books
+    return { content: books, totalCount: booksCount, pageCount: Math.ceil(booksCount / input.size) }
   }),
 
   adjustNeedsReview: protectedProcedure.input(z.object({ id: z.string().cuid(), needsReview: z.boolean() })).mutation(async ({ctx, input}) => {
