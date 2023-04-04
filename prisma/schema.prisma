@@ -73,7 +73,8 @@ model Book {
     readAt       DateTime?
     hasAudioBook Boolean   @default(false)
     needsReview  Boolean   @default(false)
-    reviewAdded  Boolean   @default(false)
+    hasReview    Boolean   @default(false)
+    posted       Boolean   @default(false)
     status       String    @default("TO_BE_READ")
     userId       String
     user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)

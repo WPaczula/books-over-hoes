@@ -1,3 +1,4 @@
+import { type Book } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
@@ -5,6 +6,7 @@ import {
   protectedProcedure,
   type TRPCContext,
 } from "~/server/api/trpc";
+import { type BookStatus } from "~/types/BookStatus";
 
 async function findBook(ctx: TRPCContext, id: string) {
   const userId = ctx.session?.user.id;
@@ -14,6 +16,22 @@ async function findBook(ctx: TRPCContext, id: string) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Book not found' });
   }
   return book;
+}
+
+const inferBookStatus = (book: Book): BookStatus => {
+  if (!book.readAt) {
+    return 'TO_BE_READ'
+  }
+
+  if (book.needsReview && !book.hasReview) {
+    return 'AWAITING_REVIEW'
+  }
+
+  if (!book.posted) {
+    return 'TO_BE_POSTED'
+  }
+
+  return 'COMPLETED'
 }
 
 
@@ -31,14 +49,7 @@ export const bookRouter = createTRPCRouter({
     const book = await findBook(ctx, input.id);
 
     book.needsReview = input.needsReview
-
-    if (book.status !== 'TO_BE_READ') {
-        if (book.status === 'COMPLETED' && !book.reviewAdded && input.needsReview) {
-            book.status = 'AWAITING_REVIEW'
-        } else if (book.status === 'AWAITING_REVIEW' && !input.needsReview) {
-            book.status = 'COMPLETED'
-        }
-    }
+    book.status = inferBookStatus(book)
 
     await ctx.prisma.book.update({where: {id: input.id}, data: book})
 
@@ -55,20 +66,34 @@ export const bookRouter = createTRPCRouter({
     return book
   }),
 
+  adjustHasReview: protectedProcedure.input(z.object({ id: z.string().cuid(), hasReview: z.boolean() })).mutation(async ({ctx, input}) => {
+    const book = await findBook(ctx, input.id);
+
+    book.hasReview = input.hasReview
+    book.status = inferBookStatus(book)
+
+    await ctx.prisma.book.update({where: {id: input.id}, data: book})
+
+    return book
+  }),
+
+  adjustPosted: protectedProcedure.input(z.object({ id: z.string().cuid(), posted: z.boolean() })).mutation(async ({ctx, input}) => {
+    const book = await findBook(ctx, input.id);
+
+    book.posted = input.posted
+    book.status = inferBookStatus(book)
+
+    await ctx.prisma.book.update({where: {id: input.id}, data: book})
+
+    return book
+  }),
+
   adjustReadAt: protectedProcedure.input(z.object({ id: z.string().cuid(), readAt: z.date().nullable() })).mutation(async ({ctx, input}) => {
     const book = await findBook(ctx, input.id);
 
     book.readAt = input.readAt
-    if (book.status === 'TO_BE_READ' && input.readAt) {
-      if (book.needsReview) {
-        book.status = 'AWAITING_REVIEW'
-      } else if (!book.needsReview) {
-        book.status = 'COMPLETED'
-      }
-    } else if (input.readAt === null){
-      book.status = 'TO_BE_READ'
-    }
-
+    book.status = inferBookStatus(book)
+    
     await ctx.prisma.book.update({where: {id: input.id}, data: book})
 
     return book

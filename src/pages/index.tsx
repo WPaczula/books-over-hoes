@@ -1,6 +1,6 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import Head from "next/head";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import Table from "~/components/book-table/BookTable";

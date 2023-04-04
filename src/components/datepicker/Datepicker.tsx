@@ -49,7 +49,9 @@ const Datepicker = ({ value, onChange }: Props) => {
     }, [value])
 
     return (
-        <ReactDatepicker options={datepickerOptions} onChange={handleChange} show={show} setShow={handleClose} />
+        <div className="relative">
+            <ReactDatepicker options={datepickerOptions} onChange={handleChange} show={show} setShow={handleClose} />
+        </div>
     )
 }
 
