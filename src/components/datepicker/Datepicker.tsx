@@ -11,7 +11,7 @@ const options = {
         clearBtn: "",
         icons: "",
         text: "",
-        disabledText: "text-transparent dark:text-transparent hover:bg-gray-700 dark:hover:bg-gray-800 pointer-events-none",
+        disabledText: "opacity-0 hover:bg-gray-700 dark:hover:bg-gray-800 pointer-events-none",
         input: "",
         inputIcon: "",
         selected: "",
