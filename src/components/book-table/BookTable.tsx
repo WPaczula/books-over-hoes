@@ -64,117 +64,120 @@ const Table = ({ data }: Props) => {
     }
 
     return (
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr className='grid grid-cols-[140px_2fr_200px_1fr_100px_100px_80px] items-center'>
-                    <th scope="col" className="px-6 py-3">
-                        Needs review
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Name
-                    </th>
-                    <th scope="col" className="px-6 py-3 w-[200px]">
-                        Status
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Read
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Reviewed
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Posted
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        🎧
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {data.map(book => (
-                    <>
-                        <tr key={book.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 grid grid-cols-[140px_2fr_200px_1fr_100px_100px_80px] items-center">
-                            <td className="px-6 py-4">
-                                <div className="flex items-center">
-                                    <input
-                                        onChange={(event) => {
-                                            handleChangeNeedsReview(book.id, event.target.checked)
-                                        }}
-                                        id="checkbox-table-search-1"
-                                        type="checkbox"
-                                        checked={book.needsReview}
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                    <label htmlFor="checkbox-table-search-1" className="sr-only">Needs review</label>
-                                </div>
-                            </td>
-                            <td className="px-6 py-4">
-                                {book.name}
-                            </td>
-                            <td className="px-6 py-4 w-[200px]">
-                                <BookStatusBadge status={book.status as BookStatus} />
-                            </td>
-                            <td className="px-6 py-4 w-[300px] flex gap-3 items-center min-h-[80px]">
-                                <input
-                                    id="checkbox-table-search-1"
-                                    type="checkbox"
-                                    checked={!!book.readAt}
-                                    onChange={(event) => {
-                                        handleChangeReadAt(book.id, event.target.checked ? new Date() : null)
-                                    }}
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                />
-                                {book.readAt && <Datepicker value={book.readAt} onChange={(date) => handleChangeReadAt(book.id, date)} />}
-                            </td>
-                            <td className="px-6 py-4">
-                                <div className="flex items-center">
+        <div class="relative overflow-x-auto">
+
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr className='grid grid-cols-[140px_2fr_200px_1fr_100px_100px_80px] items-center'>
+                        <th scope="col" className="px-6 py-3">
+                            Needs review
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Name
+                        </th>
+                        <th scope="col" className="px-6 py-3 w-[200px]">
+                            Status
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Read
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Reviewed
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Posted
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            🎧
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map(book => (
+                        <>
+                            <tr key={book.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 grid grid-cols-[140px_2fr_200px_1fr_100px_100px_80px] items-center">
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center">
+                                        <input
+                                            onChange={(event) => {
+                                                handleChangeNeedsReview(book.id, event.target.checked)
+                                            }}
+                                            id="checkbox-table-search-1"
+                                            type="checkbox"
+                                            checked={book.needsReview}
+                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        />
+                                        <label htmlFor="checkbox-table-search-1" className="sr-only">Needs review</label>
+                                    </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                    {book.name}
+                                </td>
+                                <td className="px-6 py-4 w-[200px]">
+                                    <BookStatusBadge status={book.status as BookStatus} />
+                                </td>
+                                <td className="px-6 py-4 w-[300px] flex gap-3 items-center min-h-[80px]">
                                     <input
                                         id="checkbox-table-search-1"
                                         type="checkbox"
-                                        disabled={!book.readAt || !book.needsReview}
-                                        checked={book.hasReview}
+                                        checked={!!book.readAt}
                                         onChange={(event) => {
-                                            handleChangeHasReview(book.id, event.target.checked)
-                                        }}
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600  disabled:opacity-20 disabled:cursor-not-allowed"
-                                    />
-                                    <label htmlFor="checkbox-table-search-1" className="sr-only">Has review</label>
-                                </div>
-                            </td>
-                            <td className="px-6 py-4">
-                                <div className="flex items-center">
-                                    <input
-                                        disabled={!book.readAt || book.needsReview && !book.hasReview}
-                                        onChange={(event) => {
-                                            handleChangePosted(book.id, event.target.checked)
-                                        }}
-                                        id="checkbox-table-search-1"
-                                        type="checkbox"
-                                        checked={book.posted}
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 disabled:opacity-20 disabled:cursor-not-allowed"
-                                    />
-                                    <label htmlFor="checkbox-table-search-1" className="sr-only">Needs review</label>
-                                </div>
-                            </td>
-                            <td className="px-6 py-4">
-                                <div className="flex items-center">
-                                    <input
-                                        id="checkbox-table-search-1"
-                                        type="checkbox"
-                                        checked={book.hasAudioBook}
-                                        onChange={(event) => {
-                                            handleChangeHasAudiobook(book.id, event.target.checked)
+                                            handleChangeReadAt(book.id, event.target.checked ? new Date() : null)
                                         }}
                                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                     />
-                                    <label htmlFor="checkbox-table-search-1" className="sr-only">Has audiobook</label>
-                                </div>
-                            </td>
-                        </tr>
-                    </>
-                ))}
-            </tbody>
-        </table>
+                                    {book.readAt && <Datepicker value={book.readAt} onChange={(date) => handleChangeReadAt(book.id, date)} />}
+                                </td>
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center">
+                                        <input
+                                            id="checkbox-table-search-1"
+                                            type="checkbox"
+                                            disabled={!book.readAt || !book.needsReview}
+                                            checked={book.hasReview}
+                                            onChange={(event) => {
+                                                handleChangeHasReview(book.id, event.target.checked)
+                                            }}
+                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600  disabled:opacity-20 disabled:cursor-not-allowed"
+                                        />
+                                        <label htmlFor="checkbox-table-search-1" className="sr-only">Has review</label>
+                                    </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center">
+                                        <input
+                                            disabled={!book.readAt || book.needsReview && !book.hasReview}
+                                            onChange={(event) => {
+                                                handleChangePosted(book.id, event.target.checked)
+                                            }}
+                                            id="checkbox-table-search-1"
+                                            type="checkbox"
+                                            checked={book.posted}
+                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 disabled:opacity-20 disabled:cursor-not-allowed"
+                                        />
+                                        <label htmlFor="checkbox-table-search-1" className="sr-only">Needs review</label>
+                                    </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center">
+                                        <input
+                                            id="checkbox-table-search-1"
+                                            type="checkbox"
+                                            checked={book.hasAudioBook}
+                                            onChange={(event) => {
+                                                handleChangeHasAudiobook(book.id, event.target.checked)
+                                            }}
+                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        />
+                                        <label htmlFor="checkbox-table-search-1" className="sr-only">Has audiobook</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     )
 }
 

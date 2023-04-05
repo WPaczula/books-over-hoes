@@ -21,7 +21,7 @@ const options = {
         prev: () => <span>{`<`}</span>,
         next: () => <span>{`>`}</span>,
     },
-    datepickerClassNames: "top-12",
+    datepickerClassNames: "fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]",
     language: "en",
 }
 
@@ -49,9 +49,10 @@ const Datepicker = ({ value, onChange }: Props) => {
     }, [value])
 
     return (
-        <div className="relative">
+        <>
+            {show && <div className="bg-black fixed w-full h-full top-0 left-0 z-10 opacity-60" />}
             <ReactDatepicker options={datepickerOptions} onChange={handleChange} show={show} setShow={handleClose} />
-        </div>
+        </>
     )
 }
 
